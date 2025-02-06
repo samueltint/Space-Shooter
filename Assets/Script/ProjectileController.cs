@@ -4,10 +4,10 @@ public class ProjectileController : MonoBehaviour
 {
     public float speed,
         damage,
-        lifetime,
-        piercing;
+        lifetime;
+    public int piercing;
 
-    public void Initialize(float speed, float damage, float lifetime, float piercing, float size)
+    public void Initialize(float speed, float damage, float lifetime, int piercing, float size)
     {
         this.speed = speed;
         this.damage = damage;
@@ -21,7 +21,8 @@ public class ProjectileController : MonoBehaviour
         transform.position += transform.forward * speed;
 
         lifetime -= Time.deltaTime;
-        if (lifetime <= 0)
+
+        if (lifetime <= 0 || piercing < 0)
         {
             Destroy(gameObject);
         }

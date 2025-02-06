@@ -13,23 +13,26 @@ public class PlayerController : MonoBehaviour
     public float rollAngle = 15f;
 
     // projectile values
-    public int projCount;
+    public int projCount,
+        projPiercing;
     public float projSpread,
         projSpeed,
         projSize,
         projPerSecond,
         projLifetime,
-        projDamage,
-        projPiercing;
+        projDamage;
     public bool tapFire;
 
     public GameObject Reticle;
     public GameObject Projectile;
 
     private Vector3 vel = Vector3.zero;
+    private float timeSinceLastShot;
 
-    void Update()
+    private void Update()
     {
+        timeSinceLastShot += Time.deltaTime;
+
         // ship movement
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -46,6 +49,7 @@ public class PlayerController : MonoBehaviour
             new Vector3(1, 1, transform.position.z - cam.transform.position.z)
         );
 
+        // TODO: soft boundaries
         transform.position = new Vector3(
             Mathf.Clamp(
                 transform.position.x,
@@ -61,6 +65,7 @@ public class PlayerController : MonoBehaviour
         );
 
         // ship rotation
+        // TODO: dont rotate when pushed against the boundaries
         Quaternion targetRotation = Quaternion.Euler(
             -verticalInput * pitchAngle,
             0,
@@ -79,8 +84,11 @@ public class PlayerController : MonoBehaviour
             || (!tapFire && Input.GetKey(KeyCode.Mouse0))
         )
         {
-            //TODO: check for firerate
-            fireProjectile();
+            if (timeSinceLastShot >= 1 / projPerSecond)
+            {
+                fireProjectile();
+                timeSinceLastShot = 0;
+            }
         }
     }
 
@@ -94,21 +102,21 @@ public class PlayerController : MonoBehaviour
         Vector3 targetPoint;
         if (Physics.Raycast(ray, out hit))
         {
+            print("onTarget");
             targetPoint = hit.point;
         }
         else
         {
-            targetPoint = Reticle.transform.position;
+            targetPoint = ray.GetPoint(130);
         }
-        currentProj.transform.LookAt(
-            targetPoint
-                + new Vector3(
-                    Random.Range(-projSpread, projSpread),
-                    Random.Range(-projSpread, projSpread),
-                    0
-                )
+        currentProj.transform.LookAt(targetPoint);
+        currentProj.transform.Rotate(
+            new Vector3(
+                Random.Range(-projSpread, projSpread),
+                Random.Range(-projSpread, projSpread),
+                0
+            )
         );
-
         ProjectileController currentProjController =
             currentProj.GetComponent<ProjectileController>();
         currentProjController.Initialize(

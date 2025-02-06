@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.8113208, g: 0.78868395, b: 0.54725885, a: 1}
+  m_AmbientSkyColor: {r: 0.81301177, g: 0.823125, b: 0.8490566, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.69
@@ -294,9 +294,9 @@ MonoBehaviour:
   pitchAngle: 25
   rollAngle: 15
   projCount: 1
-  projSpread: 0
+  projSpread: 5
   projSpeed: 0.4
-  projSize: 0.5
+  projSize: 0.3
   projPerSecond: 0
   projLifetime: 4
   projDamage: 10

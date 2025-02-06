@@ -14,23 +14,17 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("triggered");
         if (other.tag == "Player_Projectile")
         {
-            print("tagged");
             ProjectileController proj = other.GetComponent<ProjectileController>();
             handleDamage(proj.damage);
-            if (proj.piercing-- < 0)
-            {
-                Destroy(proj.gameObject);
-            }
+            proj.piercing--;
         }
     }
 
     public void handleDamage(float damage)
     {
-        print("damaged");
-
+        //TODO: damage anim
         health -= damage;
     }
 
