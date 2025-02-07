@@ -51,7 +51,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Blinking_Speed: 0.00003
+    - _BlinkingSpeed: 0.003
+    - _Blinking_Speed: 0.003
+    - _MovementSpeed: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _StarDensity: 23.03
