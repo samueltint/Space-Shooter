@@ -2,9 +2,10 @@ using UnityEngine;
 
 public abstract class EnemyMovement : MonoBehaviour
 {
-    float smoothPos = .1f;
+    public Vector3 targetPos = new Vector3(0, 0, 20);
+    public float smoothPos = .1f;
 
-    public void SpawnMove(Transform enemyTransform, Vector3 targetPos, Vector3 vel)
+    public void SpawnMove(Transform enemyTransform, ref Vector3 vel)
     {
         enemyTransform.position = Vector3.SmoothDamp(
             enemyTransform.position,
@@ -14,5 +15,5 @@ public abstract class EnemyMovement : MonoBehaviour
         );
     }
 
-    public abstract void Move(Transform enemyTransform);
+    public abstract void Move(Transform enemyTransform, ref Vector3 vel, BoundedVector3 bounds);
 }

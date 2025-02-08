@@ -8,7 +8,8 @@ public class EnemySpawner : MonoBehaviour
     public float spawnZ = 100f;
     public float spawnRate = 2f;
     public int enemyCount = 0;
-    public float startingZ = 50f;
+    public float targetZ = 80f;
+    public float entrySpeed = 1;
 
     private void Start()
     {
@@ -45,11 +46,9 @@ public class EnemySpawner : MonoBehaviour
                 break;
         }
 
-        GameObject currentEnemy = Instantiate(Enemy, spawnPoint, Quaternion.identity);
+        GameObject currentEnemy = Instantiate(Enemy, spawnPoint, Quaternion.identity, transform);
         EnemyController currentEnemyController = currentEnemy.GetComponent<EnemyController>();
 
-        currentEnemyController.targetStartingPos = cam.ViewportToWorldPoint(
-            new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), startingZ)
-        );
+        currentEnemyController.Initialise(targetZ, entrySpeed);
     }
 }

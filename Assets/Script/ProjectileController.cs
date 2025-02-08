@@ -7,7 +7,7 @@ public class ProjectileController : MonoBehaviour
         lifetime;
     public int piercing;
 
-    public void Initialize(float speed, float damage, float lifetime, int piercing, float size)
+    public void Initialise(float speed, float damage, float lifetime, int piercing, float size)
     {
         this.speed = speed;
         this.damage = damage;

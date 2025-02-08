@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9018979574225646744}
   - component: {fileID: 1766816515665859646}
   - component: {fileID: 8800576507091079642}
-  - component: {fileID: 7023415918585515893}
+  - component: {fileID: 4527387093273149776}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Untagged
@@ -97,11 +97,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  entrySpeed: 1
-  targetStartingPos: {x: 0, y: 0, z: 20}
   active: 0
   cam: {fileID: 0}
---- !u!114 &7023415918585515893
+--- !u!114 &4527387093273149776
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,9 +108,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4534131788303409756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ab8ac322d8dbf41bd51c13a44156e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 26722fb299c487d468b80b249fa5d464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPos: {x: 0, y: 0, z: 20}
+  smoothPos: 0.1
+  minDelay: 4
+  maxDelay: 5
+  movementRange: 10.73
+  smoothingFactor: 0.24
 --- !u!1 &8842681761619237819
 GameObject:
   m_ObjectHideFlags: 0

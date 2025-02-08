@@ -73,6 +73,7 @@
     <Compile Include="Assets\Script\EnemyController.cs" />
     <Compile Include="Assets\Script\CameraController.cs" />
     <Compile Include="Assets\Script\Enemy Movements\NonMovement.cs" />
+    <Compile Include="Assets\Script\Enemy Movements\RandomMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

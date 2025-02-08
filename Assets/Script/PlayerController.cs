@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         );
         ProjectileController currentProjController =
             currentProj.GetComponent<ProjectileController>();
-        currentProjController.Initialize(
+        currentProjController.Initialise(
             projSpeed,
             projDamage,
             projLifetime,
