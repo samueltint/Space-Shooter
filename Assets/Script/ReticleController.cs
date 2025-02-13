@@ -19,7 +19,7 @@ public class ReticleController : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.visible = false;
+        // Cursor.visible = false;
 
         nearReticle = gameObject.transform.GetChild(0);
         farReticle = gameObject.transform.GetChild(1);

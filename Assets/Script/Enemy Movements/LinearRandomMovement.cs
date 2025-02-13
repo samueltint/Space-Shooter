@@ -1,11 +1,10 @@
 using UnityEngine;
 
-public class RandomMovement : EnemyMovement
+public class LinearRandomMovement : EnemyMovement
 {
     public float minDelay = 1;
     public float maxDelay = 1;
     public float movementRange = 2;
-    public float smoothingFactor = 3;
 
     private float timeSinceLastMove = 0;
     private float nextMoveTime = 3;
@@ -21,12 +20,12 @@ public class RandomMovement : EnemyMovement
                 Random.Range(bounds.minZ, bounds.maxZ)
             );
 
-            Vector3 direction = randomTarget - enemyTransform.position;
-            float distance = direction.magnitude;
+            Vector3 dir = randomTarget - enemyTransform.position;
+            float dist = dir.magnitude;
 
-            if (distance > movementRange)
+            if (dist > movementRange)
             {
-                targetPos = enemyTransform.position + direction.normalized * movementRange;
+                targetPos = enemyTransform.position + dir.normalized * movementRange;
             }
             else
             {
@@ -41,7 +40,7 @@ public class RandomMovement : EnemyMovement
             enemyTransform.position,
             targetPos,
             ref vel,
-            smoothingFactor
+            activeMovementSmoothing
         );
     }
 }

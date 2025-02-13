@@ -4,17 +4,18 @@ public class PlayerController : MonoBehaviour
 {
     public Camera cam;
     public Vector2 shipPadding;
+    public float health = 40;
 
-    // movement
+    [Header("Movement")]
     public float speed = 20f;
     public float smoothPos = 3f;
     public float smoothRot = 5f;
     public float pitchAngle = 25f;
     public float rollAngle = 15f;
 
-    // projectile values
-    public int projCount,
-        projPiercing;
+    [Header("Projectiles")]
+    public int projCount;
+    public int projPiercing;
     public float projSpread,
         projSpeed,
         projSize,
@@ -26,8 +27,14 @@ public class PlayerController : MonoBehaviour
     public GameObject Reticle;
     public GameObject Projectile;
 
+    private EnemySpawner spawner;
     private Vector3 vel = Vector3.zero;
     private float timeSinceLastShot;
+
+    void Awake()
+    {
+        spawner = GameObject.FindWithTag("Spawner").GetComponent<EnemySpawner>();
+    }
 
     private void Update()
     {
@@ -90,24 +97,30 @@ public class PlayerController : MonoBehaviour
                 timeSinceLastShot = 0;
             }
         }
+
+        if (health <= 0)
+        {
+            handleDeath();
+        }
     }
 
     void fireProjectile()
     {
         GameObject currentProj = Instantiate(Projectile, transform.position, Quaternion.identity);
+        currentProj.tag = "Player_Projectile";
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(
             new Vector3(Input.mousePosition.x, Input.mousePosition.y, Reticle.transform.position.z)
         );
         Vector3 targetPoint;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Enemy")
         {
             print("onTarget");
             targetPoint = hit.point;
         }
         else
         {
-            targetPoint = ray.GetPoint(130);
+            targetPoint = ray.GetPoint(spawner.targetZ);
         }
         currentProj.transform.LookAt(targetPoint);
         currentProj.transform.Rotate(
@@ -126,5 +139,27 @@ public class PlayerController : MonoBehaviour
             projPiercing,
             projSize
         );
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy_Projectile")
+        {
+            ProjectileController proj = other.GetComponent<ProjectileController>();
+            handleDamage(proj.damage);
+            proj.piercing--;
+        }
+    }
+
+    public void handleDamage(float damage)
+    {
+        //TODO: damage anim
+        Debug.Log("Hit");
+        health -= damage;
+    }
+
+    public void handleDeath()
+    {
+        Debug.Log("Dead");
     }
 }

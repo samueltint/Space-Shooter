@@ -51,12 +51,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlinkingSpeed: 0.003
+    - _BlinkingSpeed: 0.001
     - _Blinking_Speed: 0.003
     - _MovementSpeed: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _SpaceMovementSpeed: 0.01
     - _StarDensity: 23.03
+    - _StarMovementSpeed: 0.07
     - _StarPower: 14.2
     m_Colors:
     - _Color: {r: 1289.7361, g: 942.96735, b: 942.96735, a: 0}

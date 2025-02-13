@@ -292,6 +292,7 @@ MonoBehaviour:
   smoothRot: 5
   pitchAngle: 25
   rollAngle: 15
+  defaultAimZ: 80
   projCount: 1
   projPiercing: 0
   projSpread: 0
@@ -692,9 +693,10 @@ MonoBehaviour:
   cam: {fileID: 963194227}
   spawnZ: 400
   spawnRate: 2
-  enemyCount: 0
   targetZ: 80
   entrySpeed: 1
+  screenPadding: 10
+  maxEnemies: 25
 --- !u!4 &1853533505
 Transform:
   m_ObjectHideFlags: 0
