@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject Enemy;
+    public GameObject[] Enemies;
     public Camera cam;
 
     public float spawnZ = 100f;
     public float spawnRate = 2f;
     public float targetZ = 80f;
+    public float targetZVariance = 5f;
     public float entrySpeed = 1;
     public float screenPadding = 10;
     public int maxEnemies = 5;
@@ -49,14 +50,17 @@ public class EnemySpawner : MonoBehaviour
             }
 
             GameObject currentEnemy = Instantiate(
-                Enemy,
+                Enemies[Random.Range(0, Enemies.Length)],
                 spawnPoint,
                 Quaternion.identity,
                 transform
             );
             EnemyController currentEnemyController = currentEnemy.GetComponent<EnemyController>();
 
-            currentEnemyController.Initialise(targetZ, entrySpeed);
+            currentEnemyController.Initialise(
+                targetZ + Random.Range(-targetZVariance, targetZVariance),
+                entrySpeed
+            );
         }
     }
 }

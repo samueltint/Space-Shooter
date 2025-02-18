@@ -7,8 +7,10 @@ public class EnemyController : MonoBehaviour
     private bool active = false;
     private Camera cam;
     private GameObject player;
+    private Animator anim;
     private EnemyMovement movement;
-    private Vector3 vel = Vector3.zero;
+    private Vector3 posVel = Vector3.zero;
+    private Vector3 rotVel = Vector3.zero;
     private BoundedVector3 movementBounds;
 
     [Header("Projectiles")]
@@ -19,21 +21,20 @@ public class EnemyController : MonoBehaviour
         projSize,
         projPerSecond,
         projLifetime,
-        projDamage;
+        projDamage,
+        shootAnimLeading,
+        maxAngle;
     public GameObject Projectile;
-
-    void Awake()
-    {
-        InvokeRepeating(nameof(fireProjectile), 0f, 1f / projPerSecond);
-    }
 
     public void Initialise(float targetZ, float entrySpeed)
     {
+        InvokeRepeating(nameof(fireProjectile), 0f, 1f / projPerSecond);
+        anim = GetComponentInChildren<Animator>();
         cam = FindAnyObjectByType<Camera>();
         player = GameObject.FindWithTag("Player");
         movement = GetComponent<EnemyMovement>();
 
-        vel = new Vector3(-transform.position.x, -transform.position.y).normalized * entrySpeed;
+        posVel = new Vector3(-transform.position.x, -transform.position.y).normalized * entrySpeed;
         movement.targetPos = cam.ViewportToWorldPoint(
             new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), targetZ)
         );
@@ -55,7 +56,7 @@ public class EnemyController : MonoBehaviour
     {
         if (active)
         {
-            movement.Move(transform, ref vel, movementBounds);
+            movement.Move(transform, ref posVel, ref rotVel, movementBounds);
             if (health <= 0)
             {
                 handleDeath();
@@ -63,12 +64,20 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            movement.SpawnMove(transform, ref vel, movementBounds);
-            if (transform.position.z - movement.targetPos.z < 1f)
+            if (anim)
+            {
+                anim.SetBool("isMoving", true);
+            }
+            movement.SpawnMove(transform, ref posVel, ref rotVel, movementBounds);
+            if (transform.position.z - movement.targetPos.z < 2f)
             {
                 active = true;
-                vel = Vector3.zero;
+                posVel = Vector3.zero;
                 movement.InitialiseMovement(transform, movementBounds);
+                if (anim)
+                {
+                    anim.SetBool("isMoving", false);
+                }
             }
         }
     }
@@ -98,30 +107,43 @@ public class EnemyController : MonoBehaviour
     {
         if (active)
         {
-            GameObject currentProj = Instantiate(
-                Projectile,
-                transform.position,
-                Quaternion.identity
-            );
-            currentProj.tag = "Enemy_Projectile";
-            currentProj.transform.LookAt(player.transform.position);
-            currentProj.transform.Rotate(
-                new Vector3(
-                    Random.Range(-projSpread, projSpread),
-                    Random.Range(-projSpread, projSpread),
-                    0
-                )
-            );
-            ProjectileController currentProjController =
-                currentProj.GetComponent<ProjectileController>();
-            currentProjController.Initialise(
-                projSpeed,
-                projDamage,
-                projLifetime,
-                projPiercing,
-                projSize
-            );
+            if (anim)
+            {
+                anim.SetTrigger("Shoot");
+            }
+            Invoke(nameof(SpawnProjectile), shootAnimLeading); // Delay by 0.5 seconds
         }
+    }
+
+    public void SpawnProjectile()
+    {
+        GameObject currentProj = Instantiate(Projectile, transform.position, Quaternion.identity);
+        currentProj.tag = "Enemy_Projectile";
+
+        currentProj.transform.rotation = Quaternion.LookRotation(
+            Vector3.RotateTowards(
+                -currentProj.transform.forward,
+                (player.transform.position - currentProj.transform.position).normalized,
+                maxAngle * Mathf.Deg2Rad,
+                0f
+            )
+        );
+        currentProj.transform.Rotate(
+            new Vector3(
+                Random.Range(-projSpread, projSpread),
+                Random.Range(-projSpread, projSpread),
+                0
+            )
+        );
+        ProjectileController currentProjController =
+            currentProj.GetComponent<ProjectileController>();
+        currentProjController.Initialise(
+            projSpeed,
+            projDamage,
+            projLifetime,
+            projPiercing,
+            projSize
+        );
     }
 }
 

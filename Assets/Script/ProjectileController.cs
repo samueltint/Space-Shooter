@@ -4,8 +4,12 @@ public class ProjectileController : MonoBehaviour
 {
     public float speed,
         damage,
-        lifetime;
+        lifetime,
+        size;
     public int piercing;
+
+    private Camera cam;
+    private float scalingDist;
 
     public void Initialise(float speed, float damage, float lifetime, int piercing, float size)
     {
@@ -13,7 +17,10 @@ public class ProjectileController : MonoBehaviour
         this.damage = damage;
         this.lifetime = lifetime;
         this.piercing = piercing;
-        transform.localScale *= size;
+        this.size = size;
+
+        cam = FindFirstObjectByType<Camera>();
+        scalingDist = cam.GetComponent<CameraController>().scalingDist;
     }
 
     void Update()
@@ -26,5 +33,9 @@ public class ProjectileController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        float distance = Vector3.Distance(transform.position, cam.transform.position);
+        float scaleFactor = size * (1 - Mathf.Exp(-distance / scalingDist));
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 }

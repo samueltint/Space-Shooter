@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
         // ship rotation
         // TODO: dont rotate when pushed against the boundaries
-        Quaternion targetRotation = Quaternion.Euler(
+        Quaternion targetRot = Quaternion.Euler(
             -verticalInput * pitchAngle,
             0,
             -horizontalInput * rollAngle
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.Lerp(
             transform.rotation,
-            targetRotation,
+            targetRot,
             smoothRot * Time.deltaTime
         );
 

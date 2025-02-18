@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class NonMovement : EnemyMovement
 {
-    public override void Move(Transform enemyTransform, ref Vector3 vel, BoundedVector3 bounds)
+    public override void Move(
+        Transform enemyTransform,
+        ref Vector3 posVel,
+        ref Vector3 rotVel,
+        BoundedVector3 bounds
+    )
     {
-        return;
+        Rotate(enemyTransform, ref rotVel);
     }
 }

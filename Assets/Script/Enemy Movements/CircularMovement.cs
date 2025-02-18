@@ -9,8 +9,9 @@ public class CircularMovement : EnemyMovement
 
     public override void InitialiseMovement(Transform enemyTransform, BoundedVector3 bounds)
     {
-        angle = Mathf.Atan2(targetPos.y, targetPos.x);
+        targetRot = Quaternion.Euler(0, 180, 0);
 
+        angle = Mathf.Atan2(targetPos.y, targetPos.x);
         center = new Vector3(
             targetPos.x - radius * Mathf.Cos(angle),
             targetPos.y - radius * Mathf.Sin(angle),
@@ -21,7 +22,12 @@ public class CircularMovement : EnemyMovement
         center.y = Mathf.Clamp(center.y, bounds.minY + radius, bounds.maxY - radius);
     }
 
-    public override void Move(Transform enemyTransform, ref Vector3 vel, BoundedVector3 bounds)
+    public override void Move(
+        Transform enemyTransform,
+        ref Vector3 posVel,
+        ref Vector3 rotVel,
+        BoundedVector3 bounds
+    )
     {
         angle += speed * Time.deltaTime;
 
@@ -33,9 +39,11 @@ public class CircularMovement : EnemyMovement
         enemyTransform.position = Vector3.SmoothDamp(
             enemyTransform.position,
             targetPos,
-            ref vel,
+            ref posVel,
             activeMovementSmoothing
         );
+
+        Rotate(enemyTransform, ref rotVel);
     }
 
     private void OnDrawGizmos()
