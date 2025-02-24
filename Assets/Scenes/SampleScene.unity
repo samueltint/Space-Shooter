@@ -263,7 +263,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265463250}
-  m_Mesh: {fileID: 4300000, guid: a4a892b33a254ff4bb5353a244888f45, type: 2}
+  m_Mesh: {fileID: 3252224991405807402, guid: e74e87b43febf984bb64638c40c600d2, type: 3}
 --- !u!1 &479782423
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   projCount: 1
   projPiercing: 0
   projSpread: 0
-  projSpeed: 1.56
+  projSpeed: 0
   projSize: 0.3
   projPerSecond: 15
   projLifetime: 2
@@ -828,7 +828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemies:
-  - {fileID: 4534131788303409756, guid: 4a15e91bfcabe4d4c90ecd638581e5cd, type: 3}
+  - {fileID: 4534131788303409756, guid: 760815dc74483f149b4287be8f7f4b48, type: 3}
   cam: {fileID: 963194227}
   spawnZ: 500.9
   spawnRate: 3.62
@@ -836,7 +836,7 @@ MonoBehaviour:
   targetZVariance: 5
   entrySpeed: 1
   screenPadding: 10
-  maxEnemies: 0
+  maxEnemies: 10
 --- !u!4 &1853533505
 Transform:
   m_ObjectHideFlags: 0
